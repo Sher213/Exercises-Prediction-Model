@@ -1,5 +1,6 @@
 import os
 import cv2 as cv
+import base64
 import mediapipe as mp
 import csv
 mpPose = mp.solutions.pose
@@ -11,7 +12,7 @@ dirs = ['pushup', 'pullup', 'chest-dips', 'bent-over-row',
              'shoulder-press', 'squat', 'lunges', 'plank', 'glute-bridge']
 
 #rows
-rows_list = [['poseLandmarks', 'excercise']]
+rows_list = [['imageName', 'base64encoded', 'imageWidth', 'imageHeight', 'poseLandmarks', 'excercise']]
 
 #loop thru directories
 for dir in dirs:
@@ -23,9 +24,19 @@ for dir in dirs:
         #initialize list for data
         data = []
 
+        data.append(image)
+
         path = dir + '/' + image
         src = cv.imread(path)
         
+        with open(path, 'rb') as image_file:
+            data.append(base64.b64encode(image_file.read()))
+
+        w, h, c, = src.shape
+
+        data.append(w)
+        data.append(h)
+
         #create pose landmarks
         results = pose.process(src)
         if results.pose_landmarks:
@@ -35,7 +46,7 @@ for dir in dirs:
             for id, lm in enumerate(results.pose_landmarks.landmark):
                 
                 #add poseLandmark to list
-                poseLandmarks.append(str(lm))
+                poseLandmarks.append(str(lm).replace('\n', ','))
             
             data.append(poseLandmarks)
         else:   
