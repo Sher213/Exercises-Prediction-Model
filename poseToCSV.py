@@ -44,7 +44,6 @@ for dir in dirs:
         data.append(dir.replace('-', ' '))
         
         rows_list.append(data)
-        print(rows_list)
         print('DONE')
 
 
