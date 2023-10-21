@@ -44,7 +44,6 @@ for dir in dirs:
             poseLandmarks = []
             mpDraw.draw_landmarks(src, results.pose_landmarks, mpPose.POSE_CONNECTIONS)
             for id, lm in enumerate(results.pose_landmarks.landmark):
-                
                 #add poseLandmark to list
                 poseLandmarks.append(str(lm).replace('\n', ','))
             
