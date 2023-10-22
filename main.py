@@ -95,7 +95,7 @@ def main(argv):
     classifier = load('exerciseImageClassifier.joblib')
 
     #predict exercise type
-    pred = intToExercise(classifier.predict(features))
+    pred = (intToExercise(classifier.predict(features))).upper()
 
     #create vertical stack of images for comparison and add predicted text
     res = np.vstack((img, imgPose))
